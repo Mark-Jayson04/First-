@@ -1,0 +1,86 @@
+---
+title: "Lab 1: Intro to R"
+author: "Mark Jayson M. Lauzon"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+```
+
+### Exercise 1
+
+```{r review-girls-counts}
+arbuthnot$girls
+```
+
+
+### Exercise 2
+
+In the year 1640 the girls baptized was increased, in the year 1660 it decreased and from 1660 to 1700 it increased.
+
+```{r trend-girls}
+ggplot(data = arbuthnot, aes(x = year, y = girls)) + geom_line(color = "yellow") + geom_point(color = "black")
+```
+
+
+### Exercise 3
+
+The number of boys baptized increased since 1660
+
+```{r plot-prop-boys-arbuthnot}
+ggplot(data = arbuthnot, aes(x = year, y = boys)) + geom_line(color = "blue") + geom_point(color = "black")
+```
+
+
+### Exercise 4
+
+range: 1940 2002
+dimensions of the data frame: 63 3
+variable: “year” “boys” “girls”
+
+```{r dim-present}
+present$year
+dim(present)
+names(present)
+```
+
+
+### Exercise 5
+
+No, they are different than Arbuthnot’s, they are in millions and ranges from 1940 - 2002 and the Arbuthnot’s in thousands and ranges from 1629 - 1710.
+```{r count-compare}
+arbuthnot$girls + arbuthnot$boys
+present$girls + present$boys
+range(present$year)
+range(arbuthnot$year)
+```
+
+
+### Exercise 6
+
+The proportion of boys had increased in the sixties and then declined in late seventies then increased again in the eighties. and yes Arbuthnot’s observation about boys being born in greater proportion than girls hold up in the U.S is true.
+
+```{r plot-prop-boys-present}
+ggplot(data = present, aes(x = year, y = boys)) + geom_line(color = "yellow") + geom_point(color = "blue")
+
+plot (present$boys, type="l")
+
+present$boys > present$girls
+```
+
+
+### Exercise 7
+
+Year 1961 is the year with the most birth.
+
+```{r find-max-total}
+present <- present %>%
+
+mutate(total = boys + girls)
+
+present <- present %>% arrange(desc(total))
+
+head(present, 3)
